@@ -46,25 +46,10 @@ def prinxt(s):
 
 
 @app.route('/dashboard/')
-def dash(sess=False):
+def dash():
 	try:
 		
-		return render_template("dashboard.html",tempdoc=navtabcontent_locked())
-	except Exception as e:							
-		return str(e)
-@app.route('/dashboardlogdin/')
-def dashlogdin():
-	try:
-		return render_template("dashboardlogdin.html",tempdoc=navtabcontent_locked())
-	except Exception as e:
-		return str(e)
-@app.route('/dashboard/<sess>')
-def dashs(sess=False):
-	try:
-		if sess:	
-			return render_template("dashboard.html",tempdoc=navtabcontent_unlocked())#content management; this navtabcontent function lies in another python file, it returns content by some data structure
-		else:
-			return render_template("dashboard.html",tempdoc=navtabcontent_locked())
+		return render_template("dashboard.html",tempdoc=navtabcontent())
 	except Exception as e:							
 		return str(e)
 
@@ -89,7 +74,7 @@ def login_page():
 				session['logged_in']=True
 				session['username']=username			
 				#return redirect(url_for('dashs',sess=True))#it redirects to the url of dash
-				return redirect(url_for('dashlogdin'))
+				return redirect(url_for('dash'))
 			else:
 				error="invalid credentials"
 			c.close()
