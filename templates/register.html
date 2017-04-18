@@ -1,0 +1,21 @@
+{% extends "header.html" %}
+{% block body %}
+<body>
+	<div class="container">
+		<h4>Register</h4><!--here field's are input tag also form.username etc, when enter are empty and are populated after _formhelpers.html here after rendering each field to _forme..html, every field and therefore the form gets values and submit button(characterised by its type by js thus calling post method) finalizes the data entered which on the other end i.e.
+		app.py's register_page() causes if block which finally stores inside database -->
+		<br>
+		{% from "_formhelpers.html" import render_field %}
+		<form method=post action="/register/">
+			<dl>
+				{{render_field(form.username)}}
+				{{render_field(form.email)}}
+				{{render_field(form.password)}}
+				{{render_field(form.confirm)}}
+				{{render_field(form.accept_tos)}}
+			</dl>
+			<p> <input type=submit value=Register></p><!--type is important here-->
+		</form>
+	</div>
+</body>
+{% endblock %}

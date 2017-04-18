@@ -1,0 +1,45 @@
+{% extends "header.html" %}<!--here inside header.html is the link to signup and login, the main2.html doesn't include header.html-->
+{% block body %} <!-- this things inside this logic(curly braces block) gets kind of pushed in between the logic inside header.html as if 
+														part of the same file--> 
+	
+	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
+	<div role="tabpanel">	
+		<ul class="nav nav-tabs">
+		  <li role="presentation" class="active"><a href="#basics" aria-controls="basics" role="tab" data-toggle="tab">basics</a></li>
+		  <li role="presentation"><a href="#wdev" aria-controls="wdev" role="tab" data-toggle="tab">webd</a></li>
+		  
+		</ul>
+	<!--Tab panes-->
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane fade in active" id="basics">
+				<ul>
+					{% if tempdoc["basics"] %}<!--I have left tempdoc values empty for 'notloggedin' users-->
+						{% for t in tempdoc["basics"] %}
+				
+								<li><a href={{t[1]}} >{{t[0]}}</a>
+					
+						{% endfor %}
+					{% else %}
+							<p><a href="/login/">Login </a>to see what is inside.</p>
+					{% endif %}
+				</ul>
+			</div>
+			<div role="tabpanel" class="tab-pane fade in active" id="wdev">
+				<ul>				
+					{% if tempdoc["webd"] %}
+						{% for t in tempdoc["webd"] %}
+				
+								<li><a href={{t[1]}} >{{t[0]}}</a>
+					
+						{% endfor %}
+					{% else %}
+							<p><a href="/login/">Login </a>to see what is inside.</p>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+	
+	</div>
+{% endblock %}
+

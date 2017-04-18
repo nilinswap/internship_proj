@@ -1,0 +1,13 @@
+{% macro render_field(field) %}<!--this breaks field into field.label which stores label field under <dt> and field's dictionar
+ y correspoding label which stores the pure input part under <dd> -->
+  <dt>{{field.label}}
+  <dd>{{field(**kwargs)|safe}}
+  {% if field.errors %}
+	<ul class=errors>
+	{% for error in  field.errors%}
+		<li>{{error}}</li>
+	{% endfor %}
+	</ul>	
+	{%endif%}
+  </dd>
+{% endmacro %}
