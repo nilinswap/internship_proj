@@ -7,6 +7,7 @@ import content_management
 from content_management import *
 import gc
 
+from functools import wraps
 
 app = Flask(__name__)
 
@@ -14,6 +15,22 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     return render_template("main2.html")
+def login_required(f):
+	@wraps(f)
+	def wrap(*args, **kwargs):
+		if 'logged_in' in session:
+			return f(*args,**kwargs)
+		else:
+			flash("you need to login first")
+			return redirect(url_for('login_page'))
+	return wrap
+@login_required
+@app.route("/logout/")
+def logout():
+	session.clear()
+	flash("You have been logged out!")
+	gc.collect()
+	return redirect(url_for('login_page'))
 
 
 @app.route('/test/')
