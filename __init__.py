@@ -67,8 +67,8 @@ def login_page():
 			#flash(username)
 			#flash(password)
 			c,conn=connection()
-			notempty=c.execute("SELECT * FROM users where username=%s and password =%s",(username,password))
-			
+			notempty=c.execute("SELECT * FROM users where name=%s and password =%s",(username,password))
+	
 			if notempty :	
 				flash("welcome")	
 				session['logged_in']=True
@@ -161,9 +161,73 @@ def register_page2():
 		return render_template("register2.html")
 	except Exception as e:
 		return str(e)
+@app.route('/register_stu/',methods=["POST","GET"])
+def register_page_stu():
+	
+	try:
+		if request.method=="POST":
+			c,conn=connection()
+			username=request.form['Username']
+			preference=request.form['preference']
+			dob=request.form['DOB']
+			password=request.form['password']
+			repassword=request.form['repassword']
+			email=request.form['email']
+			if password!=repassword:
+				error="two passwords must match!!"
+				return render_template("signup.html",error=error)
+			n=c.execute("select * from users where name=%s",username)
+			if n:
+				error="sorry, this name has already been taken"
+				return render_template("signup.html",error=error)
+			c.execute("insert into users (name,preference,dob,email,password) values (%s,%s,%s,%s,%s)",(username,preference,dob,email,password))
+			flash("success!! welcome to shiteclub")
+			flash(username)
+			conn.commit()
+			c.close()
+			conn.close()
+			gc.collect()
+			flash("please login first")
+			return redirect(url_for('dash'))
+			
+		return render_template("signup.html")
+	except Exception as e:
+		return str(e)
 
-
-
+@app.route('/register_co/',methods=["POST","GET"])
+def register_page_co():
+	
+	try:
+		if request.method=="POST":
+			c,conn=connection()
+			co_name=request.form['co_name']
+			link=request.form['link']
+			num=int(request.form['num'])
+			field=request.form['field']
+			email=request.form['email']
+			password=request.form['password']
+			repassword=request.form['repassword']
+			
+			if password!=repassword:
+				error="two passwords must match!!"
+				return render_template("signup.html",error=error)
+			n=c.execute("select * from company where co_name=%s",co_name)
+			if n:
+				error="sorry, no two company can have same name"
+				return render_template("signup.html",error=error)
+			c.execute("insert into users (name,link,num,field,email,password) values (%s,%s,%s,%s,%s,%s)",(co_name,link,num,field,email,password))
+			flash("success!! welcome to shiteclub, you are company")
+			flash(co_name)
+			conn.commit()
+			c.close()
+			conn.close()
+			gc.collect()
+			flash("please login first")
+			return redirect(url_for('dash'))
+			
+		return render_template("signup.html")
+	except Exception as e:
+		return str(e)
 @app.route('/user/<name>')
 def currentlyfree(name):
 	return "hello "+name+", umm.. you are not registered but for now it doesn't matter. So enjoy."#here 'name' is a variable.

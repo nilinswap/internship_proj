@@ -55,14 +55,14 @@
 	 				 		 <a href="/support-donate/" class="pull-right"> 
 						&nbsp;Support&nbsp;&nbsp;&nbsp;</a>
 			        </li>
-			        {% if not session.logged_in %}<-- here jinja-ninja shows option of  login only when logged out and vice versa !-->
+			        {% if not session.logged_in %}<!-- here jinja-ninja shows option of  login only when logged out and vice versa !-->
 				 		<li class="pull-right">
 						   			 <a role="presentation" class="active" href="/login/"><span 
 					 						class="glyphicon glyphicon-log-in "></span>&nbsp; Login&nbsp;&nbsp;&nbsp;&nbsp;</a>
 				
 						</li>
 						<li class="pull-right">
-								<a role="presentation" class="active"  href="/register/">&nbsp;&nbsp;<span 
+								<a role="presentation" class="active"  href="/register_stu/">&nbsp;&nbsp;<span 
 					 						class="glyphicon glyphicon-pencil"></span> Sign up&nbsp;&nbsp;&nbsp;&nbsp;</a>
 						</li>
 					{% else %}
