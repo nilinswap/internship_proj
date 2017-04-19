@@ -135,18 +135,20 @@ def register_page2():
 	try:
 		if request.method=="POST":
 			c,conn=connection()
-			username=request.form['username']
+			username=request.form['Username']
+			preference=request.form['preference']
+			dob=request.form['DOB']
 			password=request.form['password']
 			repassword=request.form['repassword']
 			email=request.form['email']
 			if password!=repassword:
 				error="two passwords must match!!"
 				return render_template("register2.html",error=error)
-			n=c.execute("select * from users where username=%s",username)
+			n=c.execute("select * from users where name=%s",username)
 			if n:
 				error="sorry, this name has already been taken"
 				return render_template("register2.html",error=error)
-			c.execute("insert into users (username,mail_id,password) values (%s,%s,%s)",(username,email,password))
+			c.execute("insert into users (name,preference,dob,email,password) values (%s,%s,%s,%s,%s)",(username,preference,dob,email,password))
 			flash("success!! welcome to shiteclub")
 			flash(username)
 			conn.commit()

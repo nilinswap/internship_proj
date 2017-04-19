@@ -14,7 +14,7 @@
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane fade in active" id="basics">
 				<ul>
-					{% if session.logged_in %}<--here notice that i don't need to pass session from __init__.py to html, it's ensured by flask itself!-->
+					{% if session.logged_in %}<!--here notice that i don't need to pass session from __init__.py to html, it's ensured by flask itself-->
 						{% for t in tempdoc["basics"] %}
 				
 								<li><a href={{t[1]}} >{{t[0]}}</a>
