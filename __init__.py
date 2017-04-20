@@ -28,9 +28,9 @@ def login_required(f):
 @app.route("/logout/")
 def logout():
 	session.clear()
-	flash("You have been logged out!")
+	#flash("You have been logged out!")
 	gc.collect()
-	return redirect(url_for('login_page'))
+	return redirect(url_for('home'))
 
 
 @app.route('/test/')
@@ -59,6 +59,15 @@ def dash():
 def login_page():	
 	error=None
 	try:
+		
+		return render_template("login_jais.html",error=error)
+	except Exception as e:
+		if e: flash(e)
+		return render_template("login_jais.html",error=error)
+@app.route('/login_stu/',methods=["GET","POST"])
+def login_page_stu():	
+	error=None
+	try:
 		if request.method=="POST":#the action part of form gives this feed
 			username=request.form['username']
 			password=request.form['password']#this username gets value from "{{request.form.username}}"(i.e. value) part of input tag in login.html
@@ -80,10 +89,39 @@ def login_page():
 			c.close()
 			conn.close()
 		#flash("first") in the first loop as there is no method given it reaches upto below stated return and call same html
-		return render_template("login.html",error=error)
+		return render_template("login_jais.html",error=error)
 	except Exception as e:
 		if e: flash(e)
-		return render_template("login.html",error=error)
+		return render_template("login_jais.html",error=error)
+@app.route('/login_co/',methods=["GET","POST"])
+def login_page_co():	
+	error=None
+	try:
+		if request.method=="POST":#the action part of form gives this feed
+			email=request.form['email']
+			password=request.form['password']#this username gets value from "{{request.form.username}}"(i.e. value) part of input tag in login.html
+			#password=sha256_crypt.encrypt(password)
+			#print(password)
+			#flash(username)
+			#flash(password)
+			c,conn=connection()
+			notempty=c.execute("SELECT * FROM company where email=%s and password =%s",(email,password))
+			co_name=c.fetchone()[1]
+			if notempty :	
+				flash("welcome")	
+				session['logged_in']=True
+				session['co_name']=co_name			
+				#return redirect(url_for('dashs',sess=True))#it redirects to the url of dash
+				return redirect(url_for('dash'))
+			else:
+				error="invalid credentials"
+			c.close()
+			conn.close()
+		#flash("first") in the first loop as there is no method given it reaches upto below stated return and call same html
+		return render_template("login_jais.html",error=error)
+	except Exception as e:
+		if e: flash(e)
+		return render_template("login_jais.html",error=error)
 
 
 #below mentioned two snippets along with register.html and _formhelpers.html use flask wholly for registration page
@@ -132,33 +170,8 @@ def register_page():
 @app.route('/register/',methods=["POST","GET"])
 def register_page2():
 	
-	try:
-		if request.method=="POST":
-			c,conn=connection()
-			username=request.form['Username']
-			preference=request.form['preference']
-			dob=request.form['DOB']
-			password=request.form['password']
-			repassword=request.form['repassword']
-			email=request.form['email']
-			if password!=repassword:
-				error="two passwords must match!!"
-				return render_template("register2.html",error=error)
-			n=c.execute("select * from users where name=%s",username)
-			if n:
-				error="sorry, this name has already been taken"
-				return render_template("register2.html",error=error)
-			c.execute("insert into users (name,preference,dob,email,password) values (%s,%s,%s,%s,%s)",(username,preference,dob,email,password))
-			flash("success!! welcome to shiteclub")
-			flash(username)
-			conn.commit()
-			c.close()
-			conn.close()
-			gc.collect()
-			flash("please login first")
-			return redirect(url_for('dash'))
-			
-		return render_template("register2.html")
+	try:	
+		return render_template("signup.html")
 	except Exception as e:
 		return str(e)
 @app.route('/register_stu/',methods=["POST","GET"])
