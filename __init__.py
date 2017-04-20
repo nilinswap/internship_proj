@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return render_template("main2.html")
+    return render_template("homepage.html")
 def login_required(f):
 	@wraps(f)
 	def wrap(*args, **kwargs):
@@ -54,6 +54,7 @@ def dash():
 		return str(e)
 
 
+	
 
 @app.route('/login/',methods=["GET","POST"])
 def login_page():	
