@@ -215,7 +215,7 @@ def register_page_co():
 			if n:
 				error="sorry, no two company can have same name"
 				return render_template("signup.html",error=error)
-			c.execute("insert into users (name,link,num,field,email,password) values (%s,%s,%s,%s,%s,%s)",(co_name,link,num,field,email,password))
+			c.execute("insert into company (co_name,link,num,field,email,password) values (%s,%s,%s,%s,%s,%s)",(co_name,link,num,field,email,password))
 			flash("success!! welcome to shiteclub, you are company")
 			flash(co_name)
 			conn.commit()
