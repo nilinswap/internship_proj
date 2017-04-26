@@ -55,7 +55,9 @@ def dash():
 
 
 	
-
+@app.route('/justtest/')
+def testi():
+	return render_template("new_dashboard.html")
 @app.route('/login/',methods=["GET","POST"])
 def login_page():	
 	error=None
@@ -195,6 +197,10 @@ def register_page_stu():
 				error="sorry, this name has already been taken"
 				return render_template("signup.html",error=error)
 			c.execute("insert into users (name,preference,dob,email,password) values (%s,%s,%s,%s,%s)",(username,preference,dob,email,password))
+			fileo=open("stu_files/%s.txt"%(username),"w")
+			fileo.write("%s %s %s %s %s\n"%(username,preference,dob,email,password))
+			fileo.close()
+			c.execute("insert into stu_filetable (username,nameoffile) values (%s,%s)",(username,"stu_files/"+username+".txt"));
 			flash("success!! welcome to shiteclub")
 			flash(username)
 			conn.commit()
@@ -230,6 +236,10 @@ def register_page_co():
 				error="sorry, no two company can have same name"
 				return render_template("signup.html",error=error)
 			c.execute("insert into company (co_name,link,num,field,email,password) values (%s,%s,%s,%s,%s,%s)",(co_name,link,num,field,email,password))
+			fileo=open("co_files/%s.txt"%(co_name),"w")
+			fileo.write("%s %s %s %s %s %s\n"%(str(co_name),str(link),str(num),str(field),str(email),str(password)))
+			fileo.close()
+			c.execute("insert into co_filetable (co_name,nameoffile) values (%s,%s)",(co_name,"co_files/"+co_name+".txt"));
 			flash("success!! welcome to shiteclub, you are company")
 			flash(co_name)
 			conn.commit()
