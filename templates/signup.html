@@ -81,7 +81,12 @@
             </label>
             <input type="password", name="repassword", value="{{request.form.password}}", autocomplete="off"/>
           </div>
-          
+          <div class="field-wrap">
+            <label>
+              about myself<span class="req">*</span>
+            </label>
+            <textarea name="aboutmyself" cols="25" rows="4" value="{{request.form.aboutmyself}}" autocomplete="off"></textarea>
+          </div>
          
           <button name="submitbtn" type="submit" class="button button-block" value="sign_up"/>Get Started</button>
           </form>
@@ -143,7 +148,12 @@
             </label>
             <input type="password", name="repassword", value="{{request.form.password}}", autocomplete="off"/>
           </div>
-          
+          <div class="field-wrap">
+            <label>
+              about us<span class="req">*</span>
+            </label>
+            <textarea name="aboutus" cols="25" rows="4" value="{{request.form.aboutus}}" autocomplete="off"></textarea>
+          </div>
          
           <button name="submitbtn" type="submit" class="button button-block" value="sign_up"/>Get Started</button>
           </form>

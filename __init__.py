@@ -29,6 +29,20 @@ def login_required(f):
 def logout():
 	session.clear()
 	#flash("You have been logged out!")
+	fileo=open("templates/new_dashboard_stu.html","w")
+	inputst="""{% extends "new_dashboardheader.html" %}
+	{% block body %}
+	{% endblock %}"""
+	fileo.write(inputst)
+	fileo.close()
+	fileo=open("templates/new_dashboard_co.html","w")
+	inputst="""{% extends "new_dashboardheader.html" %}
+	{% block body %}
+	{% endblock %}"""
+	fileo.write(inputst)
+	fileo.close()					
+				
+				
 	gc.collect()
 	return redirect(url_for('home'))
 
@@ -57,6 +71,7 @@ def dash():
 	
 @app.route('/justtest/')
 def testi():
+	#return render_template("new_dashboard_stu.html",st='swapnil')
 	return render_template("new_dashboard.html")
 @app.route('/login/',methods=["GET","POST"])
 def login_page():	
@@ -86,6 +101,68 @@ def login_page_stu():
 				session['logged_in']=True
 				session['username']=username			
 				#return redirect(url_for('dashs',sess=True))#it redirects to the url of dash
+				"""fileo=open("stu_files/%s.txt"%(username),'r')
+				lis=fileo.readlines()
+				arglis=lis[0].rstrip().split(' ')
+				fileo.close()"""
+				datanum=c.execute("SELECT * FROM company as c INNER JOIN users as u on c.field=u.preference WHERE u.name=%s",(username))	
+				print(datanum)
+				datalis=c.fetchall()
+				n=len(datalis)
+				if datanum==1:
+					n=1
+				"""fileo=open("templates/new_dashboard_stu.html",'a+')
+				fileo.seek(
+				fileo.read"""
+				inputst=''
+				print(datalis)
+				for i in range(n):
+					dataitemtup=datalis[i]
+					filename="co_files/"+dataitemtup[1]+".txt"
+		
+					fileo=open(filename,'r')
+					arglis=fileo.readlines()
+					pq=len(arglis)
+					lis1=arglis[0].rstrip().split(" ")
+					print(lis1)
+					field=lis1[3]
+					co_name=lis1[0]
+					link=lis1[1]
+					if pq>1:
+						for i in range(2,pq):
+							arglis[1]+=arglis[i]
+					else:	
+						arglis.append(arglis[0])
+					st="""
+						<div class="row">
+					  		<div class="col-md-12 panel-warning">
+					  			<div class="content-box-header panel-heading">
+				  					<div class="panel-title ">%s</div>
+						
+									<div class="panel-options">
+										<a href="#" data-rel="collapse"><i class="glyphicon glyphicon-refresh"></i></a>
+										<a href="#" data-rel="reload"><i class="glyphicon glyphicon-cog"></i></a>
+									</div>
+					  			</div>
+					  			<div class="content-box-large box-with-header">
+						  			<a href="%s" >%s </a>
+						  			<br>
+						  			%s
+									<br /><br />
+								</div>
+					  		</div>
+					  	</div>
+					  	"""%(field,link,co_name,arglis[1])
+					inputst+=st
+				fileo=open("templates/new_dashboard_stu.html","w")
+				inputst="""{% extends "new_dashboardheader.html" %}
+	{% block body %}"""+inputst+"""\n{% endblock %}"""
+				fileo.write(inputst)
+				fileo.close()					
+				return render_template("new_dashboard_stu.html")
+				
+				
+			
 				return redirect(url_for('dash'))
 			else:
 				error="invalid credentials"
@@ -96,6 +173,9 @@ def login_page_stu():
 	except Exception as e:
 		if e: flash(e)
 		return render_template("login_jais.html",error=error)
+
+
+	
 @app.route('/login_co/',methods=["GET","POST"])
 def login_page_co():	
 	error=None
@@ -115,7 +195,65 @@ def login_page_co():
 				session['logged_in']=True
 				session['co_name']=co_name			
 				#return redirect(url_for('dashs',sess=True))#it redirects to the url of dash
-				return redirect(url_for('dash'))
+				datanum=c.execute("SELECT * FROM users as u INNER JOIN company as c on c.field=u.preference WHERE c.co_name=%s",(co_name))	
+				print(datanum)
+				datalis=c.fetchall()
+				n=len(datalis)
+				if datanum==1:
+					n=1
+				"""fileo=open("templates/new_dashboard_stu.html",'a+')
+				fileo.seek(
+				fileo.read"""
+				inputst=''
+				
+				print(datalis)
+				for i in range(n):
+					dataitemtup=datalis[i]
+					filename="stu_files/"+dataitemtup[1]+".txt"
+		
+					fileo=open(filename,'r')
+					arglis=fileo.readlines()
+					lis1=arglis[0].rstrip().split(" ")
+					print(lis1)
+					username=lis1[0]
+					pq=len(arglis)
+					if pq>1:
+						for i in range(2,pq):
+							arglis[1]+=arglis[i]
+					else:	
+						arglis.append(arglis[0])
+		
+					st="""
+						<div class="row">
+					  		<div class="col-md-12 panel-warning">
+					  			<div class="content-box-header panel-heading">
+				  					<div class="panel-title ">%s</div>
+						
+									<div class="panel-options">
+										<a href="#" data-rel="collapse"><i class="glyphicon glyphicon-refresh"></i></a>
+										<a href="#" data-rel="reload"><i class="glyphicon glyphicon-cog"></i></a>
+									</div>
+					  			</div>
+					  			<div class="content-box-large box-with-header">
+						  			
+						  			<br>
+						  			%s
+									<br /><br />
+								</div>
+					  		</div>
+					  	</div>
+					  	"""%(username,arglis[1])
+					inputst+=st
+				fileo=open("templates/new_dashboard_co.html","w")
+				inputst="""{% extends "new_dashboardheader.html" %}
+	{% block body %}"""+inputst+"""\n{% endblock %}"""
+				fileo.write(inputst)
+				fileo.close()					
+				return render_template("new_dashboard_co.html")
+				
+				
+			
+				
 			else:
 				error="invalid credentials"
 			c.close()
@@ -189,6 +327,7 @@ def register_page_stu():
 			password=request.form['password']
 			repassword=request.form['repassword']
 			email=request.form['email']
+			aboutmyself=request.form['aboutmyself']
 			if password!=repassword:
 				error="two passwords must match!!"
 				return render_template("signup.html",error=error)
@@ -198,7 +337,7 @@ def register_page_stu():
 				return render_template("signup.html",error=error)
 			c.execute("insert into users (name,preference,dob,email,password) values (%s,%s,%s,%s,%s)",(username,preference,dob,email,password))
 			fileo=open("stu_files/%s.txt"%(username),"w")
-			fileo.write("%s %s %s %s %s\n"%(username,preference,dob,email,password))
+			fileo.write("%s %s %s %s %s\n%s"%(username,preference,dob,email,password,aboutmyself))
 			fileo.close()
 			c.execute("insert into stu_filetable (username,nameoffile) values (%s,%s)",(username,"stu_files/"+username+".txt"));
 			flash("success!! welcome to shiteclub")
@@ -208,7 +347,7 @@ def register_page_stu():
 			conn.close()
 			gc.collect()
 			flash("please login first")
-			return redirect(url_for('dash'))
+			return redirect(url_for('home'))
 			
 		return render_template("signup.html")
 	except Exception as e:
@@ -227,6 +366,8 @@ def register_page_co():
 			email=request.form['email']
 			password=request.form['password']
 			repassword=request.form['repassword']
+			aboutus=request.form['aboutus']
+			print(aboutus)
 			
 			if password!=repassword:
 				error="two passwords must match!!"
@@ -237,7 +378,7 @@ def register_page_co():
 				return render_template("signup.html",error=error)
 			c.execute("insert into company (co_name,link,num,field,email,password) values (%s,%s,%s,%s,%s,%s)",(co_name,link,num,field,email,password))
 			fileo=open("co_files/%s.txt"%(co_name),"w")
-			fileo.write("%s %s %s %s %s %s\n"%(str(co_name),str(link),str(num),str(field),str(email),str(password)))
+			fileo.write("%s %s %s %s %s %s\n%s"%(str(co_name),str(link),str(num),str(field),str(email),str(password),aboutus))
 			fileo.close()
 			c.execute("insert into co_filetable (co_name,nameoffile) values (%s,%s)",(co_name,"co_files/"+co_name+".txt"));
 			flash("success!! welcome to shiteclub, you are company")
@@ -247,7 +388,7 @@ def register_page_co():
 			conn.close()
 			gc.collect()
 			flash("please login first")
-			return redirect(url_for('dash'))
+			return redirect(url_for('home'))
 			
 		return render_template("signup.html")
 	except Exception as e:
