@@ -1,0 +1,1 @@
+co1 http://127.0.0.1:5000/register/ -5 elec lsjfld@lksd pass

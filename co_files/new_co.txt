@@ -1,0 +1,1 @@
+new_co http://127.0.0.1:5000/register/ 3 cs lsjd@ldsjl pass

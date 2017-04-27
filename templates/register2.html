@@ -3,10 +3,15 @@
 	<div class="container">
 		<h4>Register here.</h4>
 		<form action="/register/" method="POST" class="form-inline">
-			<input type="text", class="form-control", placeholder="Username", name="username", value="{{request.form.username}}">
+			<input type="text", class="form-control", placeholder="Username", name="Username", value="{{request.form.Username}}">
+			<br><br>
+			<input type="text", class="form-control", placeholder="preference", name="preference", value="{{request.form.preference}}">
+			<br><br>
+			<input type="text", class="form-control", placeholder="DOB", name="DOB", value="{{request.form.DOB}}">
 			<br><br>
 			<input type="text", class="form-control", placeholder="Email_id", name="email", value="{{request.form.email}}">
 			<br><br>
+			
 			<input type="password", class="form-control", placeholder="Password", name="password", value="{{request.form.password}}">
 			<input type="password", class="form-control", placeholder="Confirm Password", name="repassword", value="{{request.form.password}}">
 			<br><br>

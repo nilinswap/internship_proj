@@ -1,0 +1,4 @@
+elecom http://127.0.0.1:5000/register/ 3 ele lsjlsd@lskjas pass
+lskdjlasjladsjasljasljasljasla
+slasjsaljfadsljfadsljadfsl
+slfjaskljlaewjflas
