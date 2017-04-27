@@ -78,13 +78,13 @@ def login_page():
 	error=None
 	try:
 		
-		return render_template("login_jais.html",error=error)
+		return render_template("login_jais.html",error1=error,error2=error)
 	except Exception as e:
 		if e: flash(e)
-		return render_template("login_jais.html",error=error)
+		return render_template("login_jais.html",error1=error,error2=error)
 @app.route('/login_stu/',methods=["GET","POST"])
 def login_page_stu():	
-	error=None
+	error1=None
 	try:
 		if request.method=="POST":#the action part of form gives this feed
 			username=request.form['username']
@@ -165,20 +165,20 @@ def login_page_stu():
 			
 				return redirect(url_for('dash'))
 			else:
-				error="invalid credentials"
+				error1="invalid credentials"
 			c.close()
 			conn.close()
 		#flash("first") in the first loop as there is no method given it reaches upto below stated return and call same html
-		return render_template("login_jais.html",error=error)
+		return render_template("login_jais.html",error1=error1,error2=None)
 	except Exception as e:
 		if e: flash(e)
-		return render_template("login_jais.html",error=error)
+		return render_template("login_jais.html",error1=error1,error2=None)
 
 
 	
 @app.route('/login_co/',methods=["GET","POST"])
 def login_page_co():	
-	error=None
+	error2=None
 	try:
 		if request.method=="POST":#the action part of form gives this feed
 			email=request.form['email']
@@ -187,9 +187,13 @@ def login_page_co():
 			#print(password)
 			#flash(username)
 			#flash(password)
+			
 			c,conn=connection()
 			notempty=c.execute("SELECT * FROM company where email=%s and password =%s",(email,password))
-			co_name=c.fetchone()[1]
+			if notempty:
+				co_name=c.fetchone()[1]
+			
+			
 			if notempty :	
 				flash("welcome")	
 				session['logged_in']=True
@@ -255,14 +259,14 @@ def login_page_co():
 			
 				
 			else:
-				error="invalid credentials"
+				error2="invalid credentials"
 			c.close()
 			conn.close()
 		#flash("first") in the first loop as there is no method given it reaches upto below stated return and call same html
-		return render_template("login_jais.html",error=error)
+		return render_template("login_jais.html",error1=None,error2=error2)
 	except Exception as e:
 		if e: flash(e)
-		return render_template("login_jais.html",error=error)
+		return render_template("login_jais.html",error1=None,error2=error2)
 
 
 #below mentioned two snippets along with register.html and _formhelpers.html use flask wholly for registration page
