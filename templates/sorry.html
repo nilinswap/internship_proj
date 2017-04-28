@@ -1,0 +1,23 @@
+{% extends "new_dashboardheader.html" %}
+	{% block body %}
+		<div class="row">
+					  		<div class="col-md-12 panel-warning">
+					  			<div class="content-box-header panel-heading">
+				  					<div class="panel-title "></div>
+						
+									<div class="panel-options">
+										<a href="#" data-rel="collapse"><i class="glyphicon glyphicon-refresh"></i></a>
+										<a href="#" data-rel="reload"><i class="glyphicon glyphicon-cog"></i></a>
+									</div>
+					  			</div>
+					  			<div class="content-box-large box-with-header">
+						  			<a href="%s" >Sorry </a>
+						  			<br>
+						  			<p>
+						  				<font color="red" size="+4"> Currently, nothing matches. Sorry for inconvinence.</font>	
+  									</p>
+									<br /><br />
+								</div>
+					  		</div>
+		</div>
+	{% endblock %}

@@ -95,7 +95,6 @@ def login_page_stu():
 			#flash(password)
 			c,conn=connection()
 			notempty=c.execute("SELECT * FROM users where name=%s and password =%s",(username,password))
-	
 			if notempty :	
 				flash("welcome")	
 				session['logged_in']=True
@@ -109,6 +108,8 @@ def login_page_stu():
 				print(datanum)
 				datalis=c.fetchall()
 				n=len(datalis)
+				if datanum==0:
+					return redirect(url_for('sorry'))
 				if datanum==1:
 					n=1
 				"""fileo=open("templates/new_dashboard_stu.html",'a+')
@@ -174,7 +175,9 @@ def login_page_stu():
 		if e: flash(e)
 		return render_template("login_jais.html",error1=error1,error2=None)
 
-
+@app.route('/:(/')
+def sorry():
+	return render_template("sorry.html")
 	
 @app.route('/login_co/',methods=["GET","POST"])
 def login_page_co():	
@@ -203,6 +206,8 @@ def login_page_co():
 				print(datanum)
 				datalis=c.fetchall()
 				n=len(datalis)
+				if not datanum:
+					return redirect(url_for('sorry'))
 				if datanum==1:
 					n=1
 				"""fileo=open("templates/new_dashboard_stu.html",'a+')
