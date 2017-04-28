@@ -9,7 +9,7 @@
 	<link rel="icon" href="{{url_for('static',filename='images/logo_Adviser_Q_w.png')}}">
 	<style>
 		#login {
-	  margin-left: 60%;
+	  margin-left: 49%;
 	  /*margin-top: 1%;*/
 	  border: solid 1px black;
   outline: none;
@@ -47,18 +47,46 @@
 	}
 
 	#login:hover, #login:focus {
-  background: rgba(255,255,255,0.95);
+  background: rgba(255,255,255,0);
   color: black;
   border: solid 1px black;
   letter-spacing: 3px;
 }
 
 #reg:hover, #reg:focus {
-  background: rgba(255,255,255,0.95);
+  background: rgba(255,255,255,0);
   color: black;
   border: solid 1px black;
   letter-spacing: 3px;
 }
+
+
+  #con{
+    margin-left: 2%;
+    border: solid 1px black;
+  outline: none;
+  /*border-radius: 5px;*/
+  padding: 10px 5px;
+  width: 8rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  background: rgba(0,0,0,0.75);
+  color: #ffffff;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  -webkit-appearance: none;
+  }
+#con:hover, #con:focus {
+  background: rgba(255,255,255,0);
+  color: black;
+  border: solid 1px black;
+  letter-spacing: 3px;
+}
+
+
+
 
 
 .header-basic-light{
@@ -66,8 +94,7 @@
 	box-sizing:border-box;
 	box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.15);
 	height: 80px;
-	/*background-color: rgba(255,255,255,0.95);*/
-	background-color: rgba(0,0,0,0.5);
+	background-color: rgba(255,255,255,0.95);
 }
 
 .header-basic-light .header-limiter {
@@ -94,6 +121,12 @@
 .header-basic-light .header-limiter a {
 	color: #5c616a;
 	text-decoration: none;
+	-webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.header-basic-light .header-limiter a:hover, .header-basic-light .header-limiter a:focus  {
+  color: #eaa104;
 }
 
 .header-basic-light .header-limiter nav{
@@ -295,6 +328,11 @@
                            <a href="/register/"> <button  id="reg" type="button"  data-toggle="dropdown" aria-expanded="false">
                                 Register
                             </button></a>
+                             <a href="/"> <button  id="con" type="button"  data-toggle="dropdown" aria-expanded="false">
+                                Contact
+                            </button></a>
+
+
 		
 	</div>
 

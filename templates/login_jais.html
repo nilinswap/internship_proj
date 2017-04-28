@@ -41,6 +41,12 @@
 .header-basic-light .header-limiter a {
   color: #5c616a;
   text-decoration: none;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.header-basic-light .header-limiter a:hover, .header-basic-light .header-limiter a:focus  {
+  color: #eaa104;
 }
 
 .header-basic-light .header-limiter nav{
@@ -94,8 +100,33 @@
 } 
 
 
+  #con{
+    margin-left: 2%;
+    border: solid 1px black;
+  outline: none;
+  /*border-radius: 5px;*/
+  padding: 10px 5px;
+  width: 8rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  background: rgba(0,0,0,0.75);
+  color: #ffffff;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  -webkit-appearance: none;
+  }
+#con:hover, #con:focus {
+  background: rgba(255,255,255,0);
+  color: black;
+  border: solid 1px black;
+  letter-spacing: 3px;
+}
+
+
   #reg{
-    margin-left: 70%;
+    margin-left: 60%;
     border: solid 1px black;
   outline: none;
   /*border-radius: 5px;*/
@@ -112,7 +143,7 @@
   -webkit-appearance: none;
   }
 #reg:hover, #reg:focus {
-  background: rgba(255,255,255,0.95);
+  background: rgba(255,255,255,0);
   color: black;
   border: solid 1px black;
   letter-spacing: 3px;
@@ -140,8 +171,12 @@
 
     <!-- <span><img src="/static/images/logo_Adviser_Q_w.png" height="50px" width="50px"></span> -->
     </button></a>
+                             
                         
-                           <a href="/"> <button  id="reg" type="button"  data-toggle="dropdown" aria-expanded="false">
+                           <a href="/register/"> <button  id="reg" type="button"  data-toggle="dropdown" aria-expanded="false">
+                                Register
+                            </button></a>
+                           <a href="/"> <button  id="con" type="button"  data-toggle="dropdown" aria-expanded="false">
                                 Contact
                             </button></a>
     
