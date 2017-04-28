@@ -125,6 +125,7 @@ def login_page_stu():
 					arglis=fileo.readlines()
 					pq=len(arglis)
 					lis1=arglis[0].rstrip().split(" ")
+					print("below is lis1 for company")
 					print(lis1)
 					field=lis1[3]
 					co_name=lis1[0]
@@ -134,6 +135,9 @@ def login_page_stu():
 							arglis[1]+=arglis[i]
 					else:	
 						arglis.append(arglis[0])
+					if '_' in co_name:
+						li=co_name.split('_')
+						co_name=li[0]+' '+li[1]
 					st="""
 						<div class="row">
 					  		<div class="col-md-12 panel-warning">
@@ -369,6 +373,9 @@ def register_page_co():
 		if request.method=="POST":
 			c,conn=connection()
 			co_name=request.form['co_name']
+			if ' ' in co_name:
+				li=co_name.split(' ')
+				co_name=li[0]+'_'+li[1]
 			link=request.form['link']
 			num=int(request.form['num'])
 			field=request.form['field']
