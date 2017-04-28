@@ -7,7 +7,7 @@ html {
 }
 
 body {
-  background: url('/static/image/bg.jpg');
+  background: url('/static/images/bg.jpg');
     background-size: cover;
   font-family: 'Titillium Web', sans-serif;
 }
