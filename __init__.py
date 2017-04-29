@@ -6,15 +6,29 @@ from dbconnect import connection
 import content_management 
 from content_management import *
 import gc
+import smtplib
 
+
+from flask_mail import Mail, Message
 from functools import wraps
 
 app = Flask(__name__)
+app.config.update(
+	DEBUG=True,
+	#EMAIL SETTINGS
+	MAIL_SERVER='smtp.gmail.com',
+	MAIL_PORT=465,
+	MAIL_USE_SSL=True,
+	MAIL_USERNAME = 'quinternerrands@gmail.com',
+	MAIL_PASSWORD = 'quintern'
+	)
 
+mail = Mail(app)
 
 @app.route('/')
 def home():
-    return render_template("homepage.html")
+	
+	return render_template("homepage.html")
 def login_required(f):
 	@wraps(f)
 	def wrap(*args, **kwargs):
@@ -24,6 +38,9 @@ def login_required(f):
 			flash("you need to login first")
 			return redirect(url_for('login_page'))
 	return wrap
+
+
+ 
 @login_required
 @app.route("/logout/")
 def logout():
@@ -49,6 +66,8 @@ def logout():
 
 @app.route('/test/')
 def prin():
+	st=send_mail()
+	print(st)
 	return redirect(url_for('prinxt',s="not swapnil "))
 	
 	
@@ -353,9 +372,35 @@ def register_page_stu():
 			fileo.write("%s %s %s %s %s\n%s"%(username,preference,dob,email,password,aboutmyself))
 			fileo.close()
 			c.execute("insert into stu_filetable (username,nameoffile) values (%s,%s)",(username,"stu_files/"+username+".txt"));
-			flash("success!! welcome to shiteclub")
-			flash(username)
 			conn.commit()
+			num=c.execute("SELECT * FROM company as c INNER JOIN users as u on c.field=u.preference WHERE u.name=%s",(username))	
+			print(num)
+			lis=c.fetchall()
+			n=len(lis)
+			
+			if not num:
+				st="Hi %s, Welcome to quintern, Currently there are no companies matching you. good luck for future\n"%username
+			else:
+				st="Hi %s, Welcome to quintern, Currently, %d companies match you and they are\n"%(username,num)
+				filenamelis=[item[1] for item in lis]
+				for i in range(num):
+					filename="co_files/"+filenamelis[i]+".txt"
+					fileo=open(filename,'r')
+					arglis=fileo.readlines()
+					pq=len(arglis)
+					lis1=arglis[0].rstrip().split(" ")
+					print(lis1)
+					field=lis1[3]
+					co_name=lis1[0]
+					link=lis1[1]
+					if '_' in co_name:
+						li=co_name.split('_')
+						co_name=li[0]+' '+li[1]
+					st+="%s %s\n"%(co_name,link)
+					
+			send_mail("Welcome to Quintern",st,email)
+			flash(username)
+			
 			c.close()
 			conn.close()
 			gc.collect()
@@ -397,9 +442,12 @@ def register_page_co():
 			fileo.write("%s %s %s %s %s %s\n%s"%(str(co_name),str(link),str(num),str(field),str(email),str(password),aboutus))
 			fileo.close()
 			c.execute("insert into co_filetable (co_name,nameoffile) values (%s,%s)",(co_name,"co_files/"+co_name+".txt"));
-			flash("success!! welcome to shiteclub, you are company")
+			
 			flash(co_name)
 			conn.commit()
+			
+			st="Hello %s, Welcome to quintern, We are glad to serve you. Hope you find some good interns\n"%co_name
+			send_mail("Welcome to quintern",st,email)
 			c.close()
 			conn.close()
 			gc.collect()
@@ -409,6 +457,21 @@ def register_page_co():
 		return render_template("signup.html")
 	except Exception as e:
 		return str(e)
+		
+@app.route('/send-mail/')
+def send_mail(sub,st,rec):
+	try:
+	
+		msg = Message(sub,
+		  sender="quinternerrands@gmail.com",
+		  recipients=[rec])
+		msg.body = st           
+		mail.send(msg)
+
+		return 'Mail sent!'
+	except Exception as e:
+		print(str(e)+" hey yo")
+		return (str(e))
 @app.route('/user/<name>')
 def currentlyfree(name):
 	return "hello "+name+", umm.. you are not registered but for now it doesn't matter. So enjoy."#here 'name' is a variable.
@@ -427,4 +490,5 @@ def pagenotfound(e):
 if __name__ == "__main__":
     app.secret_key = 'many random bytes'
     app.run(debug=True)
+    
     
